@@ -10,12 +10,8 @@ Hermes is a small, fast, and simple RESTful log service, which has a pluggable o
 
 ###How To Run:
  - Prerequisites: node.js (installed)
- - Choose your output:
-   1. Edit hermes.conf to choose your output, and set appropriate paths for your environment.
-
- - Run Node:
-   1. Change to the 'node' directory of the checkout
-   2. Run the command: `node ./hermes.js --output "stdout" --port 8081`
+ - Choose your `output` and `port`:
+   1. Run the command: `node ./hermes.js --output stdout --port 8081`
 
 To generate the TODO list from the source, use:  
     
