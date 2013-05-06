@@ -25,18 +25,6 @@ if (processArgs.length % 2 === 0) {
 };
 if (typeof output === "undefined") { output = "stdout"; };
 if (typeof port === "undefined") { port = 8081; };
-
-try {
-  var logHandler = require("./outputs/" + output);
-  console.log("Log Handler - '%s' registered", logHandler.NAME);
-} catch (e) {
-  if (e.code === "MODULE_NOT_FOUND") {
-    console.log("Output module '%s' was not found in the outputs directory", output);
-    process.exit(1);
-  } else {
-    throw e;
-  }
-};
 // }}}
 
 var hermes = http.createServer(function(req, res) {
@@ -90,5 +78,22 @@ var hermes = http.createServer(function(req, res) {
     console.log("[404] " + req.method + " to " + req.url);
   }
 }).listen(port, function() {
-  console.log("Hermes is waiting for your messages... http://%s:%d/log", hermes.address().address, hermes.address().port);
+  try {
+    var logHandler = require("./outputs/" + output);
+    console.log("Log Handler - '%s' registered", logHandler.NAME);
+    console.log("Hermes is waiting for your messages... http://%s:%d/log", hermes.address().address, hermes.address().port);
+  } catch (e) {
+    if (e.code === "MODULE_NOT_FOUND") {
+      console.log("Output module '%s' was not found in the outputs directory", output);
+      process.exit(1);
+    } else {
+      throw e;
+    }
+  };
+}).on("error", function(err) {
+  if (err.code === "EADDRINUSE") {
+    console.log("Could not bind to port: %d. It was already bound", port);
+  } else {
+    console.log("Unknown error: %s", err);
+  }
 });
