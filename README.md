@@ -13,24 +13,22 @@ Hermes is a small, fast, and simple RESTful log service, which has a pluggable o
  - Choose your `output` and `port`:
    1. Run the command: `node ./hermes.js --output stdout --port 8081`
 
-To generate the TODO list from the source, use:  
-    
-    rm TODO; for f in $(find ./node -name "*.js" -print | grep -v node_modules); do grep -Hn TODO $f >> TODO; done
 
-###Things you can do...
+###How To Use:
 ####Create a log
  - `http://localhost:8081/log` (`POST` - creates a log event, returns `200` on processing success, `400` on validation errors, and `500` on other errors)
-  - Use the following CURL command (or an equivalent) to `POST`: 
+ - The log format is not strict in any way. Any structure valid to the chosen output can be `POST`ed
+ - Use the following CURL command (or an equivalent) to `POST`: 
 	
-		curl -v -H "Content-Type: application/json" -X POST -d '{
-    		"name":"SomeApp",
-    		"hostname":"web.server",
-    		"level":"INFO",
-    		"time":"2013-04-22T15:10Z",
-    		"message":"Logged…",
-    		"req":{},
-    		"v":"0.1"
-		}' http://localhost:8081/log  
+	    	curl -v -H "Content-Type: application/json" -X POST -d '{
+    	    	"name":"SomeApp",
+    	    	"hostname":"web.server",
+    	    	"level":"INFO",
+    	    	"time":"2013-04-22T15:10Z",
+    	    	"message":"Logged…",
+    	    	"req":{},
+    	    	"v":"0.1"
+		    }' http://localhost:8081/log  
 
 ####Available outputs:
  - `stdout` - Simply echoes out any message recieved to the server's standard out
