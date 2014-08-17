@@ -72,7 +72,7 @@ var hermes = http.createServer(function(req, res) {
             res.writeHead(200, "OK");
             res.write("Processed message\n");
             res.end();
-            console.log("[200] " + req.method + " to " + req.url);
+            //console.log("[200] " + req.method + " to " + req.url);
           }
         });
         logHandler.process(logMessage);
@@ -90,18 +90,7 @@ var hermes = http.createServer(function(req, res) {
     console.log("[404] " + req.method + " to " + req.url);
   }
 }).listen(port, function() {
-  try {
-    var logHandler = require("./outputs/" + output);
-    console.log("Log Handler - '%s' registered", logHandler.NAME);
-    console.log("Hermes is waiting for your messages... http://%s:%d/log", hermes.address().address, hermes.address().port);
-  } catch (e) {
-    if (e.code === "MODULE_NOT_FOUND") {
-      console.log("Output module '%s' was not found in the outputs directory", output);
-      process.exit(1);
-    } else {
-      throw e;
-    }
-  };
+  console.log("Hermes is waiting for your messages... http://%s:%d/log", hermes.address().address, hermes.address().port);
 }).on("error", function(err) {
   if (err.code === "EADDRINUSE") {
     console.log("Could not bind to port: %d. It was already bound", port);

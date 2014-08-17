@@ -11,7 +11,7 @@
  *   4. Has a 'validate' function, which:
  *    a. emits a 'validated' event upon ensuring the log matches defined rules
  *    b. returns null on success, error message on failure
- */ 
+ */
 // }}}
 
 var EventEmitter = require("events").EventEmitter;
@@ -21,8 +21,8 @@ stdout.NAME = "stdout";
 stdout.DESCRIPTION = "Prints any message received to the STDOUT pipe. Validator always succeeds";
 
 stdout.process = function(log) {
-  console.log("about to emit 'received' event");
-  var receivedTime = new Date().getTime();
+  //console.log("about to emit 'received' event");
+  //var receivedTime = new Date().getTime();
   stdout.emit("receivied", null);
   stdout.on("validated", function(err) {
     if (err) {
@@ -32,14 +32,13 @@ stdout.process = function(log) {
       //Process the event, emit 'processed' or 'error'
       if (typeof console === "object") {
         console.dir(log);
-        console.log("about to emit 'processed' event");
-        var processedTime = new Date().getTime();
-        console.log("Message processed in: %dms", processedTime - receivedTime);
+        //console.log("about to emit 'processed' event");
+        //var processedTime = new Date().getTime();
+        //console.log("Message processed in: %dms", processedTime - receivedTime);
         stdout.emit("processed", null);
       } else {
-        console.log("about to emit 'error' event");
-        var err = "Somehow... The console is unavailable...";
-        stdout.emit("error", err);
+        //console.log("about to emit 'error' event");
+        stdout.emit("error", "Somehow... The console is unavailable...");
       }
     }
   });
@@ -47,7 +46,7 @@ stdout.process = function(log) {
 };
 
 stdout.validate = function(log) {
-  console.log("about to emit 'validated' event");
+  //console.log("about to emit 'validated' event");
   stdout.emit("validated", null);
 };
 
