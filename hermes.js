@@ -25,6 +25,18 @@ if (processArgs.length % 2 === 0) {
 };
 if (typeof output === "undefined") { output = "stdout"; };
 if (typeof port === "undefined") { port = 8081; };
+
+try {
+  var logHandler = require("./outputs/" + output);
+  console.log("Log Handler - '%s' registered", logHandler.NAME);
+} catch (e) {
+  if (e.code === "MODULE_NOT_FOUND") {
+    console.log("Output module '%s' was not found in the outputs directory", output);
+    process.exit(1);
+  } else {
+    throw e;
+  }
+};
 // }}}
 
 var hermes = http.createServer(function(req, res) {
@@ -38,7 +50,7 @@ var hermes = http.createServer(function(req, res) {
       });
 
       req.on("end", function() {
-        logHandler.on("validationError", function(err) { 
+        logHandler.on("validationError", function(err) {
           res.writeHead(400, "Bad Request");
           res.write("Validation failed with message: " + err + "\n");
           res.end();
